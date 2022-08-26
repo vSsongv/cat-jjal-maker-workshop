@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>고양이 가라사대</title>
+    <title>고양이 짤방 생성기</title>
   </head>
   <style>
     body {
@@ -22,46 +22,94 @@
       flex-wrap: wrap;
       gap: 15px;
     }
-    .favorites img {
-      width: 150px;
+    .form {
+      margin-bottom: 20px;
+    }
+    .makeBtn {
+      cursor: pointer;
+      margin-left: 5px;
+      border-radius: 5px;
+      background: rgb(91, 228, 157);
+      border: none;
     }
   </style>
   <body>
-    <h1>1번째 고양이 가라사대</h1>
-    <form>
-      <input type="text" name="name" placeholder="영어 대사를 입력해주세요" />
-      <button type="submit">생성</button>
-    </form>
-    <div class="main-card">
-      <img
-        src="https://cataas.com/cat/60b73094e04e18001194a309/says/react"
-        alt="고양이"
-        width="400"
-      />
-      <button>🤍</button>
-    </div>
-    <ul class="favorites">
-      <li>
-        <img
-          src="https://cataas.com/cat/60b73094e04e18001194a309/says/react"
-          alt="고양이"
-        />
-      </li>
-      <li>
-        <img
-          src="https://cataas.com/cat/60b73094e04e18001194a309/says/react"
-          alt="고양이"
-        />
-      </li>
-      <li>
-        <img
-          src="https://cataas.com/cat/60b73094e04e18001194a309/says/react"
-          alt="고양이"
-        />
-      </li>
-    </ul>
-    <script>
-      console.log("야옹");
+    <div id="app"></div>
+    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script type="text/babel">
+      const App = () => {
+        const CAT1 = 'https://cataas.com/cat/60b73094e04e18001194a309/says/react';
+        const CAT2 = 'https://cataas.com//cat/5e9970351b7a400011744233/says/inflearn';
+        const CAT3 = 'https://cataas.com/cat/595f280b557291a9750ebf65/says/JavaScript';
+        const cats = [CAT1, CAT2, CAT3];
+
+        const [count, setCounter] = React.useState(1);
+
+        const handleSubmit = (e) => {
+          e.preventDefault();
+          setCounter(count + 1);
+        };
+
+        const Title = (props) => {
+          return <h1>{props.children}</h1>;
+        };
+
+        const Form = () => {
+          return (
+            <form className='form'>
+              <input type='text' name='name' placeholder='영어 대사를 입력해주세요' />
+              <button onClick={handleSubmit} className='makeBtn' type='submit'>
+                생성
+              </button>
+            </form>
+          );
+        };
+
+        const CatItem = (props) => {
+          return (
+            <li>
+              <img style={{ width: '150px' }} src={props.img} alt='고양이' />
+            </li>
+          );
+        };
+
+        const Favorites = () => {
+          return (
+            <ul className='favorites'>
+              {cats.map((cat) => {
+                <CatItem img={cat} key={cat} />;
+              })}
+            </ul>
+          );
+        };
+
+        const MainCard = () => {
+          function handleClickHeart() {
+            console.log('하트클릭');
+          }
+          return (
+            <div className='main-card'>
+              <img src='https://cataas.com/cat/60b73094e04e18001194a309/says/react' alt='고양이' width='400' />
+              <button onClick={handleClickHeart}>🤍</button>
+            </div>
+          );
+        };
+
+        return (
+          <div>
+            <Title>{count}번째 고양이 가라사대</Title>
+            <Form />
+            <MainCard />
+            <Favorites />
+          </div>
+        );
+      };
+
+      const root = document.querySelector('#app');
+
+      ReactDOM.render(<App />, root);
     </script>
   </body>
 </html>
